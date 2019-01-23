@@ -6,6 +6,8 @@ package it.polito.tdp.artsmia;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +16,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ArtsmiaController {
+	private Model model;
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
 	private ResourceBundle resources;
@@ -41,12 +52,18 @@ public class ArtsmiaController {
 
 	@FXML
 	void doAnalizzaOggetti(ActionEvent event) {
-		txtResult.setText("doAnalizzaOggetti");
+		model.creaGrafo();
 	}
 
 	@FXML
 	void doCalcolaComponenteConnessa(ActionEvent event) {
-		txtResult.setText("doCalcolaComponenteConnessa");
+		int num = Integer.parseInt(this.txtObjectId.getText());
+		if(this.model.isObjIdValid(num)) {
+			txtResult.appendText(String.format("La componente connessa del vertice %d ha %d vertici" , num, this.model.calcolaDimensioneCC(num)));
+		}
+		else {
+			txtResult.appendText("Oggetto non esistente");
+		}
 	}
 
 	@FXML
